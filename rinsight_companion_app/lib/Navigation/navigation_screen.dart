@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class TransScreen extends StatelessWidget {
-  const TransScreen({super.key});
+class NavScreen extends StatelessWidget {
+  const NavScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
