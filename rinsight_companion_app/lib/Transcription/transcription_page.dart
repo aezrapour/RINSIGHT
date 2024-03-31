@@ -24,16 +24,22 @@ class _TransScreenState extends State<TransScreen> {
         title: Text('Transcriptions'),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemCount: _transcriptions.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.mic, color: Colors.blueAccent),
-            title: Text(_transcriptions[index]),
+      body: Center(
+        child: ListView.builder(
+              itemCount: _transcriptions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+              leading: Icon(Icons.mic, color: Colors.blueAccent),
+              title: Text(_transcriptions[index]),
             // Customize each ListTile as needed
           );
         },
+      
       ),
+      
+      ),
+      
+      
     );
   }
 }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:rinsight_companion_app/Home/homescreen.dart';
 
-class NavScreen extends StatelessWidget {
-  const NavScreen({super.key});
+
+class TextToSpeech extends StatelessWidget {
+  const TextToSpeech({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Navigation'),
+        title: const Text('Text To Speech'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -19,6 +20,7 @@ class NavScreen extends StatelessWidget {
               );
           },
           child: const Text('Go back!'),
+          
         ),
       ),
     );
