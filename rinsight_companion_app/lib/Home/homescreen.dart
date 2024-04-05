@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rinsight_companion_app/Navigation/navigation_screen.dart';
 import 'package:rinsight_companion_app/Settings/settings_screen.dart';
+import 'package:rinsight_companion_app/TextToSpeech/TextToSpeech.dart';
 import 'package:rinsight_companion_app/Transcription/transcription_page.dart';
 
 class HomeScreen extends StatelessWidget {  
@@ -52,7 +53,7 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const TransScreen()),
                         );
                       },
-                      child: buildCard('images/transcription.png', 'Transcription'),
+                      child: buildCard('images/TranscriptionImg.png', 'Transcription'),
                     ),
                     
                     // Navigation Card
@@ -63,7 +64,16 @@ class HomeScreen extends StatelessWidget {
                           MaterialPageRoute(builder: (context) => const NavScreen()),
                         );
                       },
-                      child: buildCard('images/navigation.png', 'Navigation'),
+                      child: buildCard('images/NavigationLogo.png', 'Navigation'),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const TextToSpeech()),
+                        );
+                      },
+                      child: buildCard('images/TTSLogo.png', 'Text to Speech'),
                     ),
                   ],
                 ),
@@ -77,8 +87,8 @@ class HomeScreen extends StatelessWidget {
 
   Widget buildCard(String imagePath, String label) {
     return SizedBox(
-      width: 250.0,
-      height: 250.0,
+      width: 210.0,
+      height: 210.0,
       child: Card(
         color: const Color.fromARGB(255, 32, 31, 31),
         elevation: 2.0,
@@ -87,22 +97,22 @@ class HomeScreen extends StatelessWidget {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(imagePath, width: 185),
+                  child: Image.asset(imagePath, width: 160, height: 160,fit: BoxFit.cover),
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 1),
                 Text(
                   label,
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
+                    fontSize: 15,
                   ),
                 ),
               ],
