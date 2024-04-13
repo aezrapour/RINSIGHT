@@ -4,6 +4,7 @@ import websockets
 import base64
 import pyaudio
 import sys
+import json
 
 audio_buffer = b''
 i = 0
@@ -19,6 +20,7 @@ async def parse_audio(audio_str):
         i += 1
         print(i)
         print(len(audio_str))
+
         audio = base64.b64decode(audio_str)
         #print(audio)
         #print(audio_str)
@@ -44,9 +46,7 @@ async def parse_audio(audio_str):
 
 async def echo(websocket):
     async for message in websocket:
-        #print(message)
         await parse_audio(message)
-        #await websocket.send(message)
 
 async def main():
     async with websockets.serve(echo, "0.0.0.0", 8887):
