@@ -1,45 +1,140 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:speech_to_text/speech_recognition_result.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
-class TransScreen extends StatefulWidget {
-  const TransScreen({Key? key}) : super(key: key);
+class SpeechToTextPage extends StatefulWidget {
+  const SpeechToTextPage({Key? key}) : super(key: key);
 
   @override
-  _TransScreenState createState() => _TransScreenState();
+  _SpeechToTextPage createState() => _SpeechToTextPage();
 }
 
-class _TransScreenState extends State<TransScreen> {
-  // Hardcoded list of transcriptions for demonstration
-  final List<String> _transcriptions = [
-    "Hello, how are you today?",
-    "I'm fine, thank you!",
-    "Isn't the weather lovely today?",
-    "Yes, it's perfect for a walk in the park.",
-    // Add more items as needed
-  ];
+class _SpeechToTextPage extends State<SpeechToTextPage> {
+  final TextEditingController _textController = TextEditingController();
+  final SpeechToText _speechToText = SpeechToText();
+  bool _speechEnabled = false;
+  String _lastWords = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _initSpeech();
+  }
+
+  void _initSpeech() async {
+    final hasPermission = await _checkPermission();
+    if (hasPermission) {
+      _speechEnabled = await _speechToText.initialize(
+          onError: (error) => print('Error initializing speech: $error'),
+          onStatus: (status) => print('Speech status: $status'));
+      if (_speechEnabled) {
+        print("Speech initialization successful");
+      } else {
+        print("Speech initialization failed");
+      }
+    } else {
+      print("Microphone permission not granted");
+    }
+  }
+
+  Future<bool> _checkPermission() async {
+    var status = await Permission.microphone.status;
+    if (status.isGranted) {
+      return true; // Permission is already granted
+    } else {
+      status = await Permission.microphone.request();
+      if (status.isGranted) {
+        return true; // Permission granted after requesting
+      } else {
+        // Handle the case where the user denies the permission
+        if (status.isPermanentlyDenied) {
+          // Open app settings if permission is permanently denied
+          await showDialog(
+            context: context,
+            builder: (ctx) => AlertDialog(
+              title: Text("Microphone Permission"),
+              content: Text(
+                  "This app needs microphone access to function. Please enable it in app settings."),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                    openAppSettings(); // Directs the user to the app settings.
+                  },
+                  child: Text("Open Settings"),
+                ),
+              ],
+            ),
+          );
+        }
+        return false;
+      }
+    }
+  }
+
+  void _startListening() async {
+    if (!_speechEnabled) {
+      print("Speech not initialized");
+      return;
+    }
+    await _speechToText.listen(
+      onResult: _onSpeechResult,
+      localeId: "en_US", // Correct the locale ID
+      cancelOnError: true,
+      partialResults: true,
+      listenMode: ListenMode.confirmation,
+    );
+    setState(() {});
+  }
+
+  void _stopListening() async {
+    await _speechToText.stop();
+    setState(() {});
+  }
+
+  void _onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      _lastWords = result.recognizedWords + " ";
+      _textController.text = _lastWords.trim();
+    });
+    print("Speech result: ${result.recognizedWords}");
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Transcriptions'),
-        centerTitle: true,
-      ),
       body: Center(
-        child: ListView.builder(
-              itemCount: _transcriptions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-              leading: Icon(Icons.mic, color: Colors.blueAccent),
-              title: Text(_transcriptions[index]),
-            // Customize each ListTile as needed
-          );
-        },
-      
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _textController,
+              minLines: 1,
+              maxLines: 5,
+              decoration: InputDecoration(
+                hintText: "Speak and results will appear here",
+                filled: true,
+                fillColor: Colors.grey.shade300,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            FloatingActionButton(
+              onPressed: _speechToText.isNotListening
+                  ? _startListening
+                  : _stopListening,
+              tooltip: 'Listen',
+              backgroundColor: Colors.blueGrey,
+              child: Icon(
+                  _speechToText.isNotListening ? Icons.mic_off : Icons.mic),
+            )
+          ],
+        ),
       ),
-      
-      ),
-      
-      
     );
   }
 }

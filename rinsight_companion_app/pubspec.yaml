@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.6
   provider: ^6.1.2
   shared_preferences: ^2.2.2
+  web_socket_channel: ^2.1.0
+  permission_handler: ^11.3.1
+  speech_to_text: ^6.6.1
 
 dev_dependencies:
   flutter_test:

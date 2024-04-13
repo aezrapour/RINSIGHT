@@ -4,35 +4,35 @@ import 'package:rinsight_companion_app/Settings/settings_screen.dart';
 import 'package:rinsight_companion_app/TextToSpeech/TextToSpeech.dart';
 import 'package:rinsight_companion_app/Transcription/transcription_page.dart';
 
-class HomeScreen extends StatelessWidget {  
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RINSIGHT'),
-        centerTitle: true,
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
-            },
-          ),
-        ],
-        backgroundColor: Colors.redAccent,
-        leading: IconButton(
-          onPressed: () {
-          },
-          icon: IconButton(icon: const Icon(Icons.menu),
-          onPressed: () {},
-          ),
-        )
-      ),
+          title: const Text('RINSIGHT'),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SettingsScreen()),
+                );
+              },
+            ),
+          ],
+          backgroundColor: Colors.redAccent,
+          leading: IconButton(
+            onPressed: () {},
+            icon: IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {},
+            ),
+          )),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -50,27 +50,32 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const TransScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const SpeechToTextPage()),
                         );
                       },
-                      child: buildCard('images/TranscriptionImg.png', 'Transcription'),
+                      child: buildCard(
+                          'images/TranscriptionImg.png', 'Transcription'),
                     ),
-                    
+
                     // Navigation Card
                     InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const NavScreen()),
+                          MaterialPageRoute(
+                              builder: (context) => const NavScreen()),
                         );
                       },
-                      child: buildCard('images/NavigationLogo.png', 'Navigation'),
+                      child:
+                          buildCard('images/NavigationLogo.png', 'Navigation'),
                     ),
                     InkWell(
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const TextToSpeech()),
+                          MaterialPageRoute(
+                              builder: (context) => const TextToSpeech()),
                         );
                       },
                       child: buildCard('images/TTSLogo.png', 'Text to Speech'),
@@ -104,7 +109,8 @@ class HomeScreen extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(imagePath, width: 160, height: 160,fit: BoxFit.cover),
+                  child: Image.asset(imagePath,
+                      width: 160, height: 160, fit: BoxFit.cover),
                 ),
                 const SizedBox(height: 1),
                 Text(
