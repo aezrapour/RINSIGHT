@@ -1,3 +1,5 @@
+import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
@@ -18,7 +20,7 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
   bool _speechEnabled = false;
   String _lastWords = "";
   late WebSocketChannel channel;
-  static const String websocketUrl = 'ws://127.0.0.1:8887';
+  static const String websocketUrl = 'ws://127.0.0.1:8887/flutter';
 
   @override
   void initState() {
@@ -131,14 +133,21 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
     setState(() {});
   }
 
+  Timer? _debounceTimer;
   void _onSpeechResult(SpeechRecognitionResult result) {
     setState(() {
       _lastWords = result.recognizedWords + " ";
       _textController.text = _lastWords.trim();
     });
-    print("Speech result: ${result.recognizedWords}");
-    // Send the recognized words as JSON
-    channel.sink.add('{"text": "${result.recognizedWords}"}');
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      print("Debounced Speech result: ${result.recognizedWords}");
+      // Send the recognized words as JSON
+      channel.sink.add(jsonEncode({
+        "MESSAGE_TYPE_LOCAL": "FINAL_TRANSCRIPT",
+        "TRANSCRIPT_TEXT": result.recognizedWords,
+      }));
+    });
   }
 
   @override
