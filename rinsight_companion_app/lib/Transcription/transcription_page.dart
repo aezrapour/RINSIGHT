@@ -4,7 +4,6 @@ import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import 'package:rinsight_companion_app/Home/homescreen.dart';
 
 class SpeechToTextPage extends StatefulWidget {
   const SpeechToTextPage({Key? key}) : super(key: key);
@@ -19,12 +18,40 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
   bool _speechEnabled = false;
   String _lastWords = "";
   late WebSocketChannel channel;
+  static const String websocketUrl = 'ws://127.0.0.1:8887';
 
   @override
   void initState() {
     super.initState();
     _initSpeech();
-    channel = IOWebSocketChannel.connect('ws://127.0.0.1:8887');
+    _initWebSocket();
+  }
+
+  void _initWebSocket() {
+    channel = IOWebSocketChannel.connect(websocketUrl);
+    channel.stream.listen(
+      (message) {
+        print('New message from server: $message');
+      },
+      onDone: () {
+        print('WebSocket connection closed by server.');
+        _reconnectWebSocket(); // Attempt to reconnect on connection close
+      },
+      onError: (error) {
+        print('WebSocket error: $error');
+        _reconnectWebSocket(); // Attempt to reconnect on error
+      },
+      cancelOnError: true,
+    );
+  }
+
+  void _reconnectWebSocket() {
+    if (mounted) {
+      print('Reconnecting to WebSocket...');
+      Future.delayed(Duration(seconds: 2), () {
+        _initWebSocket();
+      });
+    }
   }
 
   @override
@@ -117,19 +144,13 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Live Transcription'),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()),
-                );
-              },
-              child: const Text('Go back!'),
-            ),
             TextField(
               controller: _textController,
               minLines: 1,
