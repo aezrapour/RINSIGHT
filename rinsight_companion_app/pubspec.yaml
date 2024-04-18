@@ -41,6 +41,10 @@ dependencies:
   web_socket_channel: ^2.1.0
   permission_handler: ^11.3.1
   speech_to_text: ^6.6.1
+  flutter_localizations:
+    sdk: flutter
+  flutter_translate: ^4.0.4
+  translator: ^1.0.0
 
 dev_dependencies:
   flutter_test:

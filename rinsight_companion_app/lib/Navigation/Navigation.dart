@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rinsight_companion_app/Home/homescreen.dart';
+import 'package:rinsight_companion_app/Home/Home.dart';
 
 class NavScreen extends StatefulWidget {
   const NavScreen({super.key});

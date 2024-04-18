@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:rinsight_companion_app/Home/homescreen.dart';
+import 'package:rinsight_companion_app/Home/Home.dart';
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:rinsight_companion_app/Settings/settings_screen.dart';
+import 'package:rinsight_companion_app/Settings/Settings.dart';
 
 
 class TextToSpeech extends StatefulWidget {
@@ -198,28 +198,36 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar
+      home: Scaffold
       (
-          title: const Text(
-            'Text To Speech',
-            style:TextStyle(color: Colors.white),
-            ),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()),
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+        elevation: 5.0,
+        shadowColor: Colors.white.withOpacity(0.2),
+        surfaceTintColor: Colors.white,
+        scrolledUnderElevation: 5.0,
+        backgroundColor: Colors.white,
+        leading: IconButton
+          (
+            onPressed: () 
+            {
+              Navigator.push
+              (
+                context,
+                MaterialPageRoute
+                (
+                  builder: (context) => const HomeScreen()),
                 );
-              },
-            ),
-          ],
-          backgroundColor: Colors.redAccent,
+              }, 
+            icon: const Icon(Icons.arrow_back_rounded),
           ),
+          title: const Text
+          (
+            'Text To Speech',
+            style:TextStyle(color: Colors.red),
+          ),
+          centerTitle: true,
+      ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -272,10 +280,10 @@ class _TextToSpeechState extends State<TextToSpeech> {
       decoration:
         BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
-          border: Border.all(width: 1, color: Colors.grey)
+          border: Border.all(width: 1, color: Colors.grey.withOpacity(0.6))
           ),
       child: TextField(
-        
+        decoration: InputDecoration(border: InputBorder.none),
         enableSuggestions: true,
         showCursor: true,
         maxLines: 11,
@@ -317,18 +325,34 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
   Widget languageDropDown(List<dynamic> languages) => Container(
       padding: EdgeInsets.only(top: 10.0),
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        DropdownButton(
-          menuMaxHeight: 400.0,
-          value: language,
-          items: getLanguageDropDownMenuItems(languages),
-          onChanged: changedLanguageDropDownItem,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center, 
+        children: [
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(width: 1,color: Colors.grey.withOpacity(0.5))),
+          child: DropdownButton(
+            underline: Container
+            (
+              color: Colors.white,
+            ),
+            padding: EdgeInsets.only(right: 20, left: 20),
+            menuMaxHeight: 200.0,
+            borderRadius: BorderRadius.circular(20),
+            hint: Text("Choose your language"),
+            value: language,
+            items: getLanguageDropDownMenuItems(languages),
+            onChanged: changedLanguageDropDownItem,
+          ),
         ),
         Visibility(
           visible: isAndroid,
           child: Text("Is installed: $isCurrentLanguageInstalled"),
         ),
-      ]));
+      ]),
+      );
 
   Column _buildButtonColumn(Color color, Color splashColor, IconData icon,
       String label, Function func) {
@@ -369,7 +393,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
   Widget _buildSliders() {
     return Column(
-      children: [volumeSlider(), pitchSlider(), rateSlider()],
+      children: [SizedBox(height: 20,),volumeSlider(), pitchSlider(), rateSlider()],
     );
   }
 
@@ -385,7 +409,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
         min: 0.0,
         max: 1.0,
         divisions: 20,
-        activeColor: Color.fromARGB(255, 237, 76, 26),
+        activeColor: Color.fromARGB(255, 255, 0, 0),
         label: "$volume")
       ],
     );
@@ -404,7 +428,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
           max: 2.0,
           divisions: 20,
           label: "$pitch",
-          activeColor: Color.fromARGB(255, 237, 76, 26),
+          activeColor: const Color.fromARGB(255, 255, 0, 0),
         ),
       ],
     );
@@ -423,7 +447,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
           max: 1.0,
           divisions: 20,
           label: "$rate",
-          activeColor: Color.fromARGB(255, 237, 76, 26),
+          activeColor: Color.fromARGB(255, 255, 0, 0),
         ),
       ],
     );
@@ -431,6 +455,9 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Widget goBackButton() 
   {
     return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor:MaterialStateProperty.all(const Color.fromARGB(255, 255, 0, 0)),
+      ),
           onPressed: () {
             Navigator.push(
                 context,
@@ -441,7 +468,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
           },
           child: const Text(
             'Return',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
             )
         );
   }
