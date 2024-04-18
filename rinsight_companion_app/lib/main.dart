@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rinsight_companion_app/Settings/dark_mode.dart';
-import 'package:rinsight_companion_app/Home/homescreen.dart';
+import 'package:rinsight_companion_app/Home/Home.dart';
 
 void main() {
   runApp(const MyApp());
