@@ -213,10 +213,13 @@ class _TranslationState extends State<Translation> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) 
+  {
+    return Scaffold
+    (
       backgroundColor: Colors.white,
-      appBar: AppBar(
+      appBar: AppBar
+      (
         elevation: 5.0,
         shadowColor: Colors.white.withOpacity(0.2),
         surfaceTintColor: Colors.white,
@@ -226,14 +229,8 @@ class _TranslationState extends State<Translation> {
           (
             onPressed: () 
             {
-              Navigator.push
-              (
-                context,
-                MaterialPageRoute
-                (
-                  builder: (context) => const HomeScreen()),
-                );
-              }, 
+              Navigator.pop(context);
+            }, 
             icon: const Icon(Icons.arrow_back_rounded),
           ),
           title: const Text
@@ -243,24 +240,33 @@ class _TranslationState extends State<Translation> {
           ),
           centerTitle: true,
       ),
-      body: Center(
-        
-        child: SingleChildScrollView(
-          child: Column(
+      body: Center
+      (  
+        child: SingleChildScrollView
+        (
+          child: Column
+          (
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            children: 
+            [
               SizedBox(height: 50.0,),
-              Column(
+              Column
+              (
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
+                children: 
+                [
+                  Container
+                  (
                     width: 300,
-                    decoration: BoxDecoration(
+                    decoration: BoxDecoration
+                    (
                       borderRadius: BorderRadius.circular(20.0),
                       border: Border.all(width: 0.5, color: Colors.grey.withOpacity(0.6))
                       ),
-                    child: DropdownButton(
-                      underline: Container(
+                    child: DropdownButton
+                    (
+                      underline: Container
+                      (
                         color: Colors.white,
                       ),
                       padding: EdgeInsets.only(right: 20, left: 20),
@@ -270,7 +276,8 @@ class _TranslationState extends State<Translation> {
                       focusColor: Colors.white,
                       iconDisabledColor: Colors.white,
                       iconEnabledColor: Colors.white,
-                      hint: Text(
+                      hint: Text
+                      (
                         langRequest,
                         style: TextStyle(color: Colors.black),
                       ),
@@ -282,7 +289,9 @@ class _TranslationState extends State<Translation> {
                       }).toList(),
                       onChanged:(String? value) 
                       {
-                        setState(() {
+                        setState
+                        (() 
+                        {
                           langRequest = value!;
                         });
                       },
@@ -343,11 +352,14 @@ class _TranslationState extends State<Translation> {
                 ],
               ),
               SizedBox(height: 50,),
-              SizedBox(
+              SizedBox
+              (
                 width: 400,
-                child: TextFormField(
+                child: TextFormField
+                (
                   controller: _textController,
-                  validator: (value){
+                  validator: (value)
+                  {
                     if (value == null || value.isEmpty)
                     {
                       return "Please enter speak to translate.";
@@ -356,10 +368,12 @@ class _TranslationState extends State<Translation> {
                   },
                   minLines: 2,
                   maxLines: 5,
-                  decoration: InputDecoration(
+                  decoration: InputDecoration
+                  (
                     filled: true,
                     fillColor: Colors.grey.withOpacity(0.07),
-                    border: OutlineInputBorder(
+                    border: OutlineInputBorder
+                    (
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
                     ),
@@ -369,23 +383,28 @@ class _TranslationState extends State<Translation> {
               SizedBox(height: 20),
               Icon(Icons.arrow_downward_rounded, color: Colors.black,size: 40,),
               SizedBox(height: 20),
-              Container(
+              Container
+              (
                 padding:EdgeInsets.all(20),
                 width: 400,
-                decoration: BoxDecoration(
+                decoration: BoxDecoration
+                (
                   color: Colors.grey.withOpacity(0.07),
                   borderRadius: BorderRadius.circular(20),
                   ),
-                child: Container(
-                  child: SelectableText(
+                child: Container
+                (
+                  child: SelectableText
+                  (
                     minLines: 2,
                     maxLines: 5,
                     textAlign: TextAlign.start,
                     "$output",
-                    style: TextStyle(
-                      
+                    style: TextStyle
+                    (
                       color: Colors.black,
-                      fontSize: 15,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ),
@@ -413,14 +432,14 @@ class _TranslationState extends State<Translation> {
                       backgroundColor: MaterialStateProperty.all(Colors.red),
                       foregroundColor: MaterialStateProperty.all(Colors.white)
                     ),
-                    onPressed: (){
+                    onPressed: ()
+                    {
                       translate(getLanguageCode(langRequest), getLanguageCode(langResponse),_textController.text.toString());
                     }, 
                     child: Text("Translate"),
                   ),
                 ],
               ),
-              
             ],
           ),
         ),

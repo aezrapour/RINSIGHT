@@ -1,148 +1,433 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:rinsight_companion_app/Models/modules_repo.dart';
 import 'package:rinsight_companion_app/Navigation/Navigation.dart';
 import 'package:rinsight_companion_app/Settings/Settings.dart';
 import 'package:rinsight_companion_app/TextToSpeech/TextToSpeech.dart';
 import 'package:rinsight_companion_app/Transcription/Transcription.dart';
 import 'package:rinsight_companion_app/Translation/translation.dart';
+import 'package:rinsight_companion_app/Models/modules_repo.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
+  static var listModules = 
+  [
+    Modules
+    (
+      'images/Translate.png',
+      "Translation", 
+      "View live, fast, on-device translation of your favorite language on your smart glasses and the app.", 
+      ),
+    Modules
+    (
+     
+      'images/STT.png',
+      'Transcription', 
+       "View live, fast, on-device transcription right on your smart glasses and on the app.", 
+      
+    ),
+    Modules
+    (
+      'images/TTSFinalLogo.png',
+      'Text To Speech', 
+      "Use the quick, accurate, on-app text to speech functionality with custom pitch, and speech rate controls.", 
+      
+    ),
+    Modules
+    (
+      'images/NavigationIcon.png',
+      'Navigation', 
+      "Simple and lightning fast street navigation provided to your through your R-INSIGHT glasses and on the app.", 
+    ),
+  ];
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context) 
+  {
+    return Scaffold
+    (
+      backgroundColor: Colors.white,
       appBar: AppBar
       (
-          title: const Text(
-            style: TextStyle(
-              color: Colors.red,
-            ),
-            'RINSIGHT'),
-          centerTitle: true,
-          actions: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsScreen()),
-                );
-              },
-            ),
-          ],
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {},
-            icon: IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {},
-            ),
+        elevation: 1.0,
+        shadowColor: Colors.white.withOpacity(0.1),
+        surfaceTintColor: Colors.white,
+        scrolledUnderElevation: 5.0,
+        backgroundColor: Colors.white,
+        actions: <Widget>
+        [
+          IconButton
+          (
+            icon: Icon(Icons.settings),
+            onPressed: () 
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsScreen()));
+            },
           )
+        ], 
+          title: const Text
+          (
+            'R-INSIGHT',
+            style:TextStyle(color: Color.fromARGB(255, 255, 17, 0), fontWeight: FontWeight.bold, fontFamily: 'CupertinoSystemText'),
           ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Center(
-                  child: Wrap(
-                    spacing: 20.0,
-                    runSpacing: 20.0,
-                    children: [
-                      // Transcription Card
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SpeechToTextPage()),
-                          );
-                        },
-                        child: buildCard(
-                            'images/TranscriptionImg.png', 'Transcription'),
+          centerTitle: true,
+      ),
+      body: Padding
+      (
+        padding: const EdgeInsets.all(16.0),
+        child: GridView
+        (
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount
+          (
+            crossAxisCount: 2,
+            crossAxisSpacing: 16,
+            mainAxisSpacing: 16,
+            childAspectRatio: 10/16,
+          ), 
+          children: 
+          [
+            Material(
+              elevation: 3,
+              color: Colors.white,
+              shape: RoundedRectangleBorder
+              (
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: InkWell
+              (
+                onTap: ()
+                {
+                  Navigator.push
+                  (
+                    context, 
+                    MaterialPageRoute<void>(builder: (BuildContext context) => Translation())
+                    );
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container
+                (
+                  child: Padding
+                  (
+                    padding: const EdgeInsets.symmetric(vertical: 12.0),
+                    child: Column
+                    (
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: 
+                      [
+                        Image.asset(listModules[0].modulePicture,scale: 4,width: 100,),
+                        Padding
+                        (
+                          padding: const EdgeInsets.symmetric(vertical: 3),
+                          child: Row
+                          (
+                            children: 
+                            [
+                              Container
+                              (
+                                decoration: BoxDecoration
+                                (
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding
+                        (
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  listModules[0].moduleName,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 19,
+                                  ),
+                                  ),
+                          ),
+                          SizedBox(height: 15,),
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  textAlign: TextAlign.center,
+                                  listModules[0].moduleDescription,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 11,
+                                  ),
+                                  ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Material(
+              elevation: 3,
+              color: Colors.white,
+              shape: RoundedRectangleBorder
+              (
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: InkWell
+              (
+                onTap: ()
+                {
+                  Navigator.push
+                  (
+                    context, 
+                    MaterialPageRoute<void>(builder: (BuildContext context) => SpeechToTextPage())
+                    );
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container
+                (
+                  child: Padding
+                  (
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Column
+                    (
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: 
+                      [
+                          Image.asset(listModules[1].modulePicture,scale: 1,width: 100,),
+                        Padding
+                        (
+                          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                          child: Row
+                          (
+                            children: 
+                            [
+                              Container
+                              (
+                                decoration: BoxDecoration
+                                (
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding
+                        (
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  listModules[1].moduleName,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 19,
+                                  ),
+                                  ),
+                          ),
+                          SizedBox(height: 15,),
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  textAlign: TextAlign.center,
+                                  listModules[1].moduleDescription,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 11,
+                                  ),
+                                  ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Material(
+              elevation: 3,
+              color: Colors.white,
+              shape: RoundedRectangleBorder
+              (
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: InkWell
+              (
+                onTap: ()
+                {
+                  Navigator.push
+                  (
+                    context, 
+                    MaterialPageRoute<void>(builder: (BuildContext context) => TextToSpeech())
+                    );
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Padding
+                (
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  child: Column
+                  (
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: 
+                    [
+                      Image.asset(listModules[2].modulePicture, width: 150,scale: 2),
+                      Padding
+                      (
+                        padding: const EdgeInsets.all(6.5),
+                        child: Row
+                        (
+                          children: 
+                          [
+                            Container
+                            (
+                              decoration: BoxDecoration
+                              (
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
-          
-                      // Navigation Card
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const NavScreen()),
-                          );
-                        },
-                        child:
-                            buildCard('images/NavigationLogo.png', 'Navigation'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const TextToSpeech()),
-                          );
-                        },
-                        child: buildCard('images/TTSLogo.png', 'Text to Speech'),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Translation()),
-                          );
-                        },
-                        child: buildCard('images/Google_Translate_Icon.png', 'Translation'),
-                      ),
+                      Padding
+                      (
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Text
+                              (
+                                listModules[2].moduleName,
+                                style: TextStyle
+                                (
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: 'Helvetica-Neue',
+                                  color: Colors.black,
+                                  fontSize: 19,
+                                ),
+                                ),
+                        ),
+                        SizedBox(height: 15,),
+                        Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Text
+                              (
+                                textAlign: TextAlign.center,
+                                listModules[2].moduleDescription,
+                                style: TextStyle
+                                (
+                                  fontWeight: FontWeight.w300,
+                                  fontFamily: 'Helvetica-Neue',
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  
+                                ),
+                                ),
+                        ),
                     ],
                   ),
                 ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+              ),
+            ),
 
-  Widget buildCard(String imagePath, String label) {
-    return SizedBox(
-      width: 210.0,
-      height: 210.0,
-      child: Card(
-        color: const Color.fromARGB(255, 32, 31, 31),
-        elevation: 2.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(8.0),
-                  child: Image.asset(imagePath,
-                      width: 160, height: 160, fit: BoxFit.cover),
-                ),
-                const SizedBox(height: 1),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
+            Material(
+              elevation: 3,
+              color: Colors.white,
+              shape: RoundedRectangleBorder
+              (
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: InkWell
+              (
+                onTap: ()
+                {
+                  Navigator.push
+                  (
+                    context, 
+                    MaterialPageRoute<void>(builder: (BuildContext context) => NavScreen())
+                    );
+                },
+                borderRadius: BorderRadius.circular(20),
+                child: Container
+                (
+                  child: Padding
+                  (
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Column
+                    (
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: 
+                      [
+                        Image.asset(listModules[3].modulePicture, width: 100, scale: 4,),
+                        Padding
+                        (
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row
+                          (
+                            children: 
+                            [
+                              Container
+                              (
+                                decoration: BoxDecoration
+                                (
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding
+                        (
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  listModules[3].moduleName,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 19,
+                                  ),
+                                  ),
+                          ),
+                          SizedBox(height: 15,),
+                          Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                          child: Text
+                                (
+                                  textAlign: TextAlign.center,
+                                  listModules[3].moduleDescription,
+                                  style: TextStyle
+                                  (
+                                    fontWeight: FontWeight.w300,
+                                    fontFamily: 'Helvetica-Neue',
+                                    color: Colors.black,
+                                    fontSize: 11,
+                                    
+                                  ),
+                                  ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
