@@ -10,9 +10,11 @@ class SettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        elevation: 1.0,
+        surfaceTintColor: Colors.white,
+        scrolledUnderElevation: 5.0,
+        title: const Text('Settings', style: TextStyle(color: Color.fromARGB(255, 255, 17, 0)),),
         centerTitle: true,
-        backgroundColor: Colors.redAccent,
       ),
             body: Consumer<UiProvider>(
         builder: (context, UiProvider notifier, child) {

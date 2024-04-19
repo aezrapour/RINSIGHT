@@ -24,14 +24,14 @@ class HomeScreen extends StatelessWidget {
     Modules
     (
      
-      'images/STT.png',
+      'images/Transcription.png',
       'Transcription', 
        "View live, fast, on-device transcription right on your smart glasses and on the app.", 
       
     ),
     Modules
     (
-      'images/TTSFinalLogo.png',
+      'images/TextToSpeech.png',
       'Text To Speech', 
       "Use the quick, accurate, on-app text to speech functionality with custom pitch, and speech rate controls.", 
       
@@ -49,14 +49,12 @@ class HomeScreen extends StatelessWidget {
   {
     return Scaffold
     (
-      backgroundColor: Colors.white,
       appBar: AppBar
       (
         elevation: 1.0,
         shadowColor: Colors.white.withOpacity(0.1),
         surfaceTintColor: Colors.white,
         scrolledUnderElevation: 5.0,
-        backgroundColor: Colors.white,
         actions: <Widget>
         [
           IconButton
@@ -91,7 +89,6 @@ class HomeScreen extends StatelessWidget {
           [
             Material(
               elevation: 3,
-              color: Colors.white,
               shape: RoundedRectangleBorder
               (
                 borderRadius: BorderRadius.circular(20),
@@ -146,7 +143,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 19,
                                   ),
                                   ),
@@ -162,7 +158,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w300,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 11,
                                   ),
                                   ),
@@ -176,7 +171,6 @@ class HomeScreen extends StatelessWidget {
 
             Material(
               elevation: 3,
-              color: Colors.white,
               shape: RoundedRectangleBorder
               (
                 borderRadius: BorderRadius.circular(20),
@@ -203,10 +197,10 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: 
                       [
-                          Image.asset(listModules[1].modulePicture,scale: 1,width: 100,),
+                          Image.asset(listModules[1].modulePicture,scale: 3,width: 150,),
                         Padding
                         (
-                          padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 8.0),
                           child: Row
                           (
                             children: 
@@ -231,7 +225,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 19,
                                   ),
                                   ),
@@ -247,7 +240,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w300,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 11,
                                   ),
                                   ),
@@ -261,7 +253,6 @@ class HomeScreen extends StatelessWidget {
 
             Material(
               elevation: 3,
-              color: Colors.white,
               shape: RoundedRectangleBorder
               (
                 borderRadius: BorderRadius.circular(20),
@@ -279,17 +270,20 @@ class HomeScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 child: Padding
                 (
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(vertical: 25.0),
                   child: Column
                   (
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: 
                     [
-                      Image.asset(listModules[2].modulePicture, width: 150,scale: 2),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                        child: Image.asset(listModules[2].modulePicture, width: 100,scale: 3,),
+                      ),
                       Padding
                       (
-                        padding: const EdgeInsets.all(6.5),
+                        padding: const EdgeInsets.all(6),
                         child: Row
                         (
                           children: 
@@ -314,7 +308,6 @@ class HomeScreen extends StatelessWidget {
                                 (
                                   fontWeight: FontWeight.w600,
                                   fontFamily: 'Helvetica-Neue',
-                                  color: Colors.black,
                                   fontSize: 19,
                                 ),
                                 ),
@@ -330,7 +323,6 @@ class HomeScreen extends StatelessWidget {
                                 (
                                   fontWeight: FontWeight.w300,
                                   fontFamily: 'Helvetica-Neue',
-                                  color: Colors.black,
                                   fontSize: 11,
                                   
                                 ),
@@ -344,7 +336,6 @@ class HomeScreen extends StatelessWidget {
 
             Material(
               elevation: 3,
-              color: Colors.white,
               shape: RoundedRectangleBorder
               (
                 borderRadius: BorderRadius.circular(20),
@@ -374,7 +365,7 @@ class HomeScreen extends StatelessWidget {
                         Image.asset(listModules[3].modulePicture, width: 100, scale: 4,),
                         Padding
                         (
-                          padding: const EdgeInsets.all(10.0),
+                          padding: const EdgeInsets.all(5.0),
                           child: Row
                           (
                             children: 
@@ -399,7 +390,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w600,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 19,
                                   ),
                                   ),
@@ -415,7 +405,6 @@ class HomeScreen extends StatelessWidget {
                                   (
                                     fontWeight: FontWeight.w300,
                                     fontFamily: 'Helvetica-Neue',
-                                    color: Colors.black,
                                     fontSize: 11,
                                     
                                   ),

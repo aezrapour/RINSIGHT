@@ -160,17 +160,20 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _textController,
-              minLines: 1,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: "Speak and results will appear here",
-                filled: true,
-                fillColor: Colors.grey.shade300,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
+            SizedBox(
+              width: 400,
+              child: TextField(
+                controller: _textController,
+                minLines: 1,
+                maxLines: 5,
+                decoration: InputDecoration(
+                  hintText: "Speak and results will appear here",
+                  filled: true,
+                  // fillColor: Colors.grey.shade300,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide.none,
+                  ),
                 ),
               ),
             ),
@@ -180,8 +183,9 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
                   ? _startListening
                   : _stopListening,
               tooltip: 'Listen',
-              backgroundColor: Colors.blueGrey,
+              backgroundColor: Theme.of(context).colorScheme.background,
               child: Icon(
+                color: Colors.red,
                   _speechToText.isNotListening ? Icons.mic_off : Icons.mic),
             )
           ],
