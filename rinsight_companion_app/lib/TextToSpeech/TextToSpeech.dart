@@ -171,6 +171,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
     var items = <DropdownMenuItem<String>>[];
     for (dynamic type in languages) {
       items.add(DropdownMenuItem(
+        
           value: type as String?, child: Text((type as String))));
     }
     return items;
@@ -196,23 +197,13 @@ class _TextToSpeechState extends State<TextToSpeech> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold
-      (
-        backgroundColor: Colors.white,
+    return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 5.0,
         shadowColor: Colors.white.withOpacity(0.2),
         surfaceTintColor: Colors.white,
         scrolledUnderElevation: 5.0,
-        backgroundColor: Colors.white,
-        leading: IconButton
-          (
-            onPressed: () 
-            {Navigator.pop(context);}, 
-            icon: const Icon(Icons.arrow_back_rounded),
-          ),
           title: const Text
           (
             'Text To Speech',
@@ -220,7 +211,10 @@ class _TextToSpeechState extends State<TextToSpeech> {
           ),
           centerTitle: true,
       ),
-        body: SingleChildScrollView(
+      body: Center
+      (
+        // backgroundColor: Theme.of(context).colorScheme.background,
+        child: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
@@ -229,6 +223,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
               _engineSection(),
               _futureBuilder(),
               _buildSliders(),
+              SizedBox(height: 20,),
               goBackButton(),
               if (isAndroid) _getMaxSpeechInputLengthSection(),
             ],
@@ -275,7 +270,8 @@ class _TextToSpeechState extends State<TextToSpeech> {
           border: Border.all(width: 1, color: Colors.grey.withOpacity(0.6))
           ),
       child: TextField(
-        decoration: InputDecoration(border: InputBorder.none),
+        
+        decoration: InputDecoration(border: InputBorder.none, ),
         enableSuggestions: true,
         showCursor: true,
         maxLines: 11,
@@ -293,12 +289,12 @@ class _TextToSpeechState extends State<TextToSpeech> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(Color.fromARGB(255, 16, 25, 148), Color.fromARGB(255, 47, 58, 223), Icons.play_arrow,
+          _buildButtonColumn(Colors.lightBlue, Colors.lightBlueAccent, Icons.play_arrow,
               'SPEAK', _speak),
           _buildButtonColumn(
               Colors.red, Colors.redAccent, Icons.stop, 'STOP', _stop),
           _buildButtonColumn(
-              Colors.black, Colors.black, Icons.pause, 'PAUSE', _pause),
+              Theme.of(context).colorScheme.secondary, Theme.of(context).colorScheme.secondary, Icons.pause, 'PAUSE', _pause),
         ],
       ),
     );
@@ -326,14 +322,21 @@ class _TextToSpeechState extends State<TextToSpeech> {
             borderRadius: BorderRadius.circular(20),
             border: Border.all(width: 1,color: Colors.grey.withOpacity(0.5))),
           child: DropdownButton(
+            focusColor: Colors.grey.shade400,
+            dropdownColor: Theme.of(context).colorScheme.background,
             underline: Container
             (
               color: Colors.white,
             ),
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
             padding: EdgeInsets.only(right: 20, left: 20),
             menuMaxHeight: 200.0,
             borderRadius: BorderRadius.circular(20),
-            hint: Text("Choose your language"),
+            hint: Text
+            ("Choose your language",
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
             value: language,
             items: getLanguageDropDownMenuItems(languages),
             onChanged: changedLanguageDropDownItem,
@@ -392,7 +395,8 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Widget volumeSlider() {
     return Column(
       children: [
-        Text("Volume"),
+        Text("Volume"
+        ,style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
         Slider(
         value: volume,
         onChanged: (newVolume) {
@@ -410,7 +414,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Widget pitchSlider() {
     return Column(
       children: [
-        Text("Pitch"),
+        Text("Pitch",style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
         Slider(
           value: pitch,
           onChanged: (newPitch) {
@@ -429,7 +433,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
   Widget rateSlider() {
     return Column(
       children: [
-        Text("Speech Rate"),
+        Text("Speech Rate",style: TextStyle(color: Theme.of(context).colorScheme.secondary),),
         Slider(
           value: rate,
           onChanged: (newRate) {
@@ -458,9 +462,10 @@ class _TextToSpeechState extends State<TextToSpeech> {
                   builder: (context) => const HomeScreen()),
               );
           },
-          child: const Text(
+          child: Text(
+            
             'Return',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Theme.of(context).colorScheme.background),
             )
         );
   }

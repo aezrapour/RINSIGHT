@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:rinsight_companion_app/Home/Home.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rinsight_companion_app/Settings/dark_mode.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:translator/translator.dart';
@@ -217,22 +218,12 @@ class _TranslationState extends State<Translation> {
   {
     return Scaffold
     (
-      backgroundColor: Colors.white,
       appBar: AppBar
       (
         elevation: 5.0,
         shadowColor: Colors.white.withOpacity(0.2),
         surfaceTintColor: Colors.white,
         scrolledUnderElevation: 5.0,
-        backgroundColor: Colors.white,
-        leading: IconButton
-          (
-            onPressed: () 
-            {
-              Navigator.pop(context);
-            }, 
-            icon: const Icon(Icons.arrow_back_rounded),
-          ),
           title: const Text
           (
             'Translate',
@@ -261,7 +252,7 @@ class _TranslationState extends State<Translation> {
                     decoration: BoxDecoration
                     (
                       borderRadius: BorderRadius.circular(20.0),
-                      border: Border.all(width: 0.5, color: Colors.grey.withOpacity(0.6))
+                      border: Border.all(width: 0.5, color: Colors.grey.withOpacity(0.9))
                       ),
                     child: DropdownButton
                     (
@@ -279,9 +270,7 @@ class _TranslationState extends State<Translation> {
                       hint: Text
                       (
                         langRequest,
-                        style: TextStyle(color: Colors.black),
                       ),
-                      dropdownColor: Colors.white,
                       icon: Icon(Icons.language, color: Colors.red),
                       items: languages.map((String dropDownLang)
                       {
@@ -299,7 +288,7 @@ class _TranslationState extends State<Translation> {
                     ),
                   ),
                   SizedBox(width: 40.0,height: 30,),
-                  Icon(Icons.arrow_downward_rounded, color: Colors.black,size: 40,),
+                  Icon(Icons.arrow_downward_rounded,size: 40,),
                   SizedBox(width: 40.0,height: 30,),
                   SizedBox(
                     width: 300.0,
@@ -311,7 +300,7 @@ class _TranslationState extends State<Translation> {
                           decoration: BoxDecoration
                           (
                             borderRadius: BorderRadius.circular(20.0),
-                            border: Border.all(width: 0.5, color: Colors.grey.withOpacity(0.6))
+                            border: Border.all(width: 0.5, color: Colors.grey.withOpacity(0.9))
                           ),
                           child: DropdownButton(
                             underline: Container
@@ -328,9 +317,7 @@ class _TranslationState extends State<Translation> {
                           
                             hint: Text(
                               langResponse,
-                              style: TextStyle(color: Colors.black),
                             ),
-                            dropdownColor: Colors.white,
                             icon: Icon(Icons.language,color: Colors.red,),
                             items: languages.map((String dropDownLang)
                             {
@@ -374,14 +361,14 @@ class _TranslationState extends State<Translation> {
                     fillColor: Colors.grey.withOpacity(0.07),
                     border: OutlineInputBorder
                     (
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(20),
                       borderSide: BorderSide.none,
                     ),
                   ),
                 ),
               ),
               SizedBox(height: 20),
-              Icon(Icons.arrow_downward_rounded, color: Colors.black,size: 40,),
+              Icon(Icons.arrow_downward_rounded,size: 40,),
               SizedBox(height: 20),
               Container
               (
@@ -402,7 +389,6 @@ class _TranslationState extends State<Translation> {
                     "$output",
                     style: TextStyle
                     (
-                      color: Colors.black,
                       fontSize: 19,
                       fontWeight: FontWeight.w700,
                     ),
@@ -421,8 +407,8 @@ class _TranslationState extends State<Translation> {
                         ? _startListening
                         : _stopListening,
                     tooltip: 'Listen',
-                    backgroundColor: Colors.white,
                     foregroundColor: Colors.red,
+                    backgroundColor: Theme.of(context).colorScheme.background,
                     child: Icon(_speechToText.isNotListening ? Icons.mic_off : Icons.mic),
                   ),
                   SizedBox(height: 40.0,),
@@ -430,13 +416,12 @@ class _TranslationState extends State<Translation> {
                   (
                     style: ButtonStyle( 
                       backgroundColor: MaterialStateProperty.all(Colors.red),
-                      foregroundColor: MaterialStateProperty.all(Colors.white)
                     ),
                     onPressed: ()
                     {
                       translate(getLanguageCode(langRequest), getLanguageCode(langResponse),_textController.text.toString());
                     }, 
-                    child: Text("Translate"),
+                    child: Text("Translate",style: TextStyle(color: Theme.of(context).colorScheme.background),),
                   ),
                 ],
               ),
