@@ -210,15 +210,7 @@ class _TextToSpeechState extends State<TextToSpeech> {
         leading: IconButton
           (
             onPressed: () 
-            {
-              Navigator.push
-              (
-                context,
-                MaterialPageRoute
-                (
-                  builder: (context) => const HomeScreen()),
-                );
-              }, 
+            {Navigator.pop(context);}, 
             icon: const Icon(Icons.arrow_back_rounded),
           ),
           title: const Text
