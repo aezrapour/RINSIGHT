@@ -18,6 +18,7 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
   final TextEditingController _textController = TextEditingController();
   final SpeechToText _speechToText = SpeechToText();
   bool _speechEnabled = false;
+  int _lastSentLength = 0;
   String _lastWords = "";
   late WebSocketChannel channel;
   static const String websocketUrl = 'ws://127.0.0.1:8887/flutter';
@@ -118,6 +119,7 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
       print("Speech not initialized");
       return;
     }
+    _lastSentLength = 0;
     await _speechToText.listen(
       onResult: _onSpeechResult,
       localeId: "en_US", // Correct the locale ID
@@ -135,18 +137,31 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
 
   Timer? _debounceTimer;
   void _onSpeechResult(SpeechRecognitionResult result) {
+    // Update the UI with the current full result
     setState(() {
       _lastWords = result.recognizedWords + " ";
       _textController.text = _lastWords.trim();
     });
+
+    // Cancel any previous debounce timer
     _debounceTimer?.cancel();
-    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+    _debounceTimer = Timer(const Duration(milliseconds: 350), () {
+      // Calculate the newly recognized words
+      print(_lastSentLength);
+      String newlyRecognized =
+          result.recognizedWords.substring(_lastSentLength);
       print("Debounced Speech result: ${result.recognizedWords}");
-      // Send the recognized words as JSON
-      channel.sink.add(jsonEncode({
-        "MESSAGE_TYPE_LOCAL": "FINAL_TRANSCRIPT",
-        "TRANSCRIPT_TEXT": result.recognizedWords,
-      }));
+
+      // Update the last sent length to the current length of recognized words
+      _lastSentLength = result.recognizedWords.length;
+
+      // Send the newly recognized words as JSON if there are any new words
+      if (newlyRecognized.trim().isNotEmpty) {
+        channel.sink.add(jsonEncode({
+          "MESSAGE_TYPE_LOCAL": "FINAL_TRANSCRIPT",
+          "TRANSCRIPT_TEXT": newlyRecognized.trim(),
+        }));
+      }
     });
   }
 
@@ -185,7 +200,7 @@ class _SpeechToTextPage extends State<SpeechToTextPage> {
               tooltip: 'Listen',
               backgroundColor: Theme.of(context).colorScheme.background,
               child: Icon(
-                color: Colors.red,
+                  color: Colors.red,
                   _speechToText.isNotListening ? Icons.mic_off : Icons.mic),
             )
           ],
